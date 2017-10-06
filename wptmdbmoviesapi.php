@@ -8,50 +8,8 @@ Version: 1.0.0
 Author URI: http://tawfiq.me
 */
 
-/**
- * Output form on page "submit-post"
- */
-add_filter( 'the_content', function( $content ) {
-	if ( is_page( 'submit-post' ) ) {
-		//only show to logged in users who can edit posts
-		if ( is_user_logged_in() && current_user_can( 'edit_posts' ) ) {
-			ob_start();?>
-			<form id="post-submission-form">
-				<div>
-					<label for="post-submission-title">
-						<?php _e( 'Title', 'wptmdbmoviesapi' ); ?>
-					</label>
-					<input type="text" name="post-submission-title" id="post-submission-title" required aria-required="true">
-				</div>
-				<div>
-					<label for="post-submission-excerpt">
-						<?php _e( 'Excerpt', 'wptmdbmoviesapi' ); ?>
-					</label>
-					<textarea rows="2" cols="20" name="post-submission-excerpt" id="post-submission-excerpt" required aria-required="true"></textarea>
-				</div>
-				<div>
-					<label for="post-submission-content">
-						<?php _e( 'Content', 'wptmdbmoviesapi' ); ?>
-					</label>
-					<textarea rows="10" cols="20" name="post-submission-content" id="post-submission-content"></textarea>
-				</div>
-				<div>
-				<label for="post-submission-youtube-link">
-					<?php _e( 'Youtube Trailer Link', 'wptmdbmoviesapi' ); ?>
-				</label>
-				<input type="text" name="post-submission-youtube-link" id="post-submission-youtube-link" required aria-required="true">
-			</div>
-				<input type="submit" value="<?php esc_attr_e( 'Submit', 'wptmdbmoviesapi'); ?>">
-			</form>
-			<?php
-			$content .= ob_get_clean();
-		}else{
-			$content .=  sprintf( '<a href="%1s">%2s</a>', esc_url( wp_login_url() ), __( 'Click Here To Login', 'wptmdbmoviesapi' ) );
-		}
-	}
 
-	return $content;
-});
+include_once('template.php');
 
 // Register Custom Post Type
 function trwtma_movies_post_type() {
@@ -111,28 +69,236 @@ function trwtma_movies_post_type() {
 }
 add_action( 'init', 'trwtma_movies_post_type', 0 );
 
+// Register Custom Taxonomy
+function actors_texonomy() {
+	
+		$labels = array(
+			'name'                       => _x( 'Actors', 'Taxonomy General Name', 'wptmdbmoviesapi' ),
+			'singular_name'              => _x( 'Actor', 'Taxonomy Singular Name', 'wptmdbmoviesapi' ),
+			'menu_name'                  => __( 'Actors', 'wptmdbmoviesapi' ),
+			'all_items'                  => __( 'All Actors', 'wptmdbmoviesapi' ),
+			'parent_item'                => __( 'Parent Actor', 'wptmdbmoviesapi' ),
+			'parent_item_colon'          => __( 'Parent Item:', 'wptmdbmoviesapi' ),
+			'new_item_name'              => __( 'New Actor Name', 'wptmdbmoviesapi' ),
+			'add_new_item'               => __( 'Add New Actor', 'wptmdbmoviesapi' ),
+			'edit_item'                  => __( 'Edit Actor', 'wptmdbmoviesapi' ),
+			'update_item'                => __( 'Update Actor', 'wptmdbmoviesapi' ),
+			'view_item'                  => __( 'View Actor', 'wptmdbmoviesapi' ),
+			'separate_items_with_commas' => __( 'Separate items with commas', 'wptmdbmoviesapi' ),
+			'add_or_remove_items'        => __( 'Add or remove Actor', 'wptmdbmoviesapi' ),
+			'choose_from_most_used'      => __( 'Choose from the most used', 'wptmdbmoviesapi' ),
+			'popular_items'              => __( 'Popular Actors', 'wptmdbmoviesapi' ),
+			'search_items'               => __( 'Search Actor', 'wptmdbmoviesapi' ),
+			'not_found'                  => __( 'Actor Not Found', 'wptmdbmoviesapi' ),
+			'no_terms'                   => __( 'No Actor', 'wptmdbmoviesapi' ),
+			'items_list'                 => __( 'Actors list', 'wptmdbmoviesapi' ),
+			'items_list_navigation'      => __( 'Actors list navigation', 'wptmdbmoviesapi' ),
+		);
+		$args = array(
+			'labels'                     => $labels,
+			'hierarchical'               => false,
+			'public'                     => true,
+			'show_ui'                    => true,
+			'show_admin_column'          => true,
+			'show_in_nav_menus'          => true,
+			'show_tagcloud'              => false,
+			'show_in_rest'               => true,
+		);
+		register_taxonomy( 'actors', array( 'movies' ), $args );
+	
+	}
+	add_action( 'init', 'actors_texonomy', 0 );
+
+	function genres_texonomy() {
+		
+			$labels = array(
+				'name'                       => _x( 'Genres', 'Taxonomy General Name', 'wptmdbmoviesapi' ),
+				'singular_name'              => _x( 'Genre', 'Taxonomy Singular Name', 'wptmdbmoviesapi' ),
+				'menu_name'                  => __( 'Genres', 'wptmdbmoviesapi' ),
+				'all_items'                  => __( 'All Genres', 'wptmdbmoviesapi' ),
+				'parent_item'                => __( 'Parent Genre', 'wptmdbmoviesapi' ),
+				'parent_item_colon'          => __( 'Parent Item:', 'wptmdbmoviesapi' ),
+				'new_item_name'              => __( 'New Genre Name', 'wptmdbmoviesapi' ),
+				'add_new_item'               => __( 'Add New Genre', 'wptmdbmoviesapi' ),
+				'edit_item'                  => __( 'Edit Genre', 'wptmdbmoviesapi' ),
+				'update_item'                => __( 'Update Genre', 'wptmdbmoviesapi' ),
+				'view_item'                  => __( 'View Genre', 'wptmdbmoviesapi' ),
+				'separate_items_with_commas' => __( 'Separate items with commas', 'wptmdbmoviesapi' ),
+				'add_or_remove_items'        => __( 'Add or remove Genre', 'wptmdbmoviesapi' ),
+				'choose_from_most_used'      => __( 'Choose from the most used', 'wptmdbmoviesapi' ),
+				'popular_items'              => __( 'Popular Genres', 'wptmdbmoviesapi' ),
+				'search_items'               => __( 'Search Genre', 'wptmdbmoviesapi' ),
+				'not_found'                  => __( 'Genre Not Found', 'wptmdbmoviesapi' ),
+				'no_terms'                   => __( 'No Genre', 'wptmdbmoviesapi' ),
+				'items_list'                 => __( 'Genres list', 'wptmdbmoviesapi' ),
+				'items_list_navigation'      => __( 'Genres list navigation', 'wptmdbmoviesapi' ),
+			);
+			$args = array(
+				'labels'                     => $labels,
+				'hierarchical'               => false,
+				'public'                     => true,
+				'show_ui'                    => true,
+				'show_admin_column'          => true,
+				'show_in_nav_menus'          => true,
+				'show_tagcloud'              => false,
+				'show_in_rest'               => true,
+			);
+			register_taxonomy( 'genres', array( 'movies' ), $args );
+		
+		}
+		add_action( 'init', 'genres_texonomy', 0 );
+
 /*
 * Register Custom Meta Boxes
 */
 $object_type = 'post';
-$args = array( 
+
+// original title
+$args_org_title = array( 
     'type'         => 'string',
-    'description'  => 'Youtube Trailer Link',
+    'description'  => 'original title',
     'single'       => true,
     'show_in_rest' => true,
 );
-register_meta( $object_type, 'youtube_link', $args );
-
+register_meta( $object_type, 'org_title', $args_org_title );
+// year
+$args_year = array( 
+    'type'         => 'string',
+    'description'  => 'year',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'year', $args_year );
+// imdb id
+$args_imdb_id = array( 
+    'type'         => 'string',
+    'description'  => 'imdb id',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'imdb_id', $args_imdb_id );
+// tmdb id 
+$args_tmdb_id = array( 
+    'type'         => 'string',
+    'description'  => 'tmdb id',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'tmdb_id', $args_tmdb_id );
+// language
+$args_language = array( 
+    'type'         => 'string',
+    'description'  => 'language',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'language', $args_language );
+// backdrop path
+$args_backdrop_path = array( 
+    'type'         => 'string',
+    'description'  => 'backdrop path',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'backdrop_path', $args_backdrop_path );
+// actors
+$args_actors = array( 
+    'type'         => 'string',
+    'description'  => 'actors',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'actors', $args_actors );
+// quality
+$args_quality = array( 
+    'type'         => 'string',
+    'description'  => 'quality',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'quality', $args_quality );
+// poster url
+$args_poster_url = array( 
+    'type'         => 'string',
+    'description'  => 'poster url',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'poster_url', $args_poster_url );
+// genres
+$args_genres = array( 
+    'type'         => 'string',
+    'description'  => 'genres',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'genres', $args_genres );
+// overviews
+$args_overviews = array( 
+    'type'         => 'string',
+    'description'  => 'overviews',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'overviews', $args_overviews );
+// release date
+$args_release_date = array( 
+    'type'         => 'string',
+    'description'  => 'release date',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'release_date', $args_release_date );
+// runtime
+$args_runtime = array( 
+    'type'         => 'string',
+    'description'  => 'runtime',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'runtime', $args_runtime );
+// country
+$args_country = array( 
+    'type'         => 'string',
+    'description'  => 'country',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'country', $args_country );
+// tagline
+$args_tagline = array( 
+    'type'         => 'string',
+    'description'  => 'tagline',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'tagline', $args_tagline );
+// youtube trailer 
+$args_youtube_link = array( 
+    'type'         => 'string',
+    'description'  => '',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'youtube_link', $args_youtube_link );
+// vote avarage
+$args_vote_avarage = array( 
+    'type'         => 'string',
+    'description'  => 'vote avarage',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'vote_avarage', $args_vote_avarage );
 /**
  * Setup JavaScript
  */
 add_action( 'wp_enqueue_scripts', function() {
 
 	//load script
-	wp_enqueue_script( 'my-post-submitter', plugin_dir_url( __FILE__ ) . 'post-submitter.js', array( 'jquery' ) );
+	wp_enqueue_script( 'post-submitter', plugin_dir_url( __FILE__ ) . 'post-submitter.js', array( 'jquery' ) );
 
 	//localize data for script
-	wp_localize_script( 'my-post-submitter', 'POST_SUBMITTER', array(
+	wp_localize_script( 'post-submitter', 'POST_SUBMITTER', array(
 			'root' => esc_url_raw( rest_url() ),
 			'nonce' => wp_create_nonce( 'wp_rest' ),
 			'success' => __( 'Thanks for your submission!', 'wptmdbmoviesapi' ),
