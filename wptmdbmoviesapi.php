@@ -68,6 +68,17 @@ function trwtma_movies_post_type() {
 
 }
 add_action( 'init', 'trwtma_movies_post_type', 0 );
+// Register single template for custom post type
+
+function get_movies_custom_post_type_template($single_template) {
+     global $post;
+
+     if ($post->post_type == 'movies') {
+          $single_template = dirname( __FILE__ ) . '/single-movies.php';
+     }
+     return $single_template;
+}
+add_filter( 'single_template', 'get_movies_custom_post_type_template' );
 
 // Register Custom Taxonomy
 function actors_texonomy() {
@@ -153,6 +164,30 @@ function actors_texonomy() {
 */
 $object_type = 'post';
 
+// openload_link
+$args_openload_link = array( 
+    'type'         => 'string',
+    'description'  => 'openload_link',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'openload_link', $args_openload_link );
+// filefactory_link
+$args_filefactory_link = array( 
+    'type'         => 'string',
+    'description'  => 'filefactory_link',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'filefactory_link', $args_filefactory_link );
+// magnet_link
+$args_magnet_link = array( 
+    'type'         => 'string',
+    'description'  => 'magnet_link',
+    'single'       => true,
+    'show_in_rest' => true,
+);
+register_meta( $object_type, 'magnet_link', $args_magnet_link );
 // original title
 $args_org_title = array( 
     'type'         => 'string',

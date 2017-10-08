@@ -33,15 +33,33 @@ add_filter( 'the_content', function( $content ) {
 		
 			<form class="form-horizontal" method="post" id="post-submission-form" >
 			<div class="form-group">
-				<label for="urls" class="col-sm-2 control-label">URLs</label>
+				<!-- <label for="urls" class="col-sm-2 control-label">URLs</label>
 				<div class="col-sm-9">
 				  <textarea class="form-control" rows="10" name="urls" id="urls" placeholder="URL's"></textarea>
-				</div>
+				</div> -->
 				<div class="preview">
 				  <div class="col-md-3">
 					<img src="" alt="">
 					<h4></h4>
 				  </div>
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="openload_link" class="col-sm-2 control-label">openload_link</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="openload_link" name="openload_link" placeholder="openload_link">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="filefactory_link" class="col-sm-2 control-label">filefactory_link</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="filefactory_link" name="filefactory_link" placeholder="filefactory_link">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="magnet_link" class="col-sm-2 control-label">magnet_link</label>
+				<div class="col-sm-10">
+				  <input type="text" class="form-control" id="magnet_link" name="magnet_link" placeholder="magnet_link">
 				</div>
 			  </div>
 			  <div class="form-group">
@@ -235,7 +253,7 @@ add_filter( 'the_content', function( $content ) {
 							 $('#tmdb').val(data.id);
 							 $('#original_title').val(data.original_title);
 							 $('#overview').val(data.overview);
-							 $('#poster').val('https://image.tmdb.org/t/p/w500/' + data.poster_path);
+							 $('#poster').val('https://image.tmdb.org/t/p/w300/' + data.poster_path);
 							 $('#release_date').val(data.release_date);
 							 $('#runtime').val(data.runtime);
 							 $('#country').val(data.production_countries[0].name);
@@ -252,7 +270,7 @@ add_filter( 'the_content', function( $content ) {
 							}
 							 $('#genres').val(genresList);
 							 var actorsList ="";
-							 for (i=0; i < data.credits.cast.length ; i++) { 
+							 for (i=0; i < 6 ; i++) { 
 								 actorsList += data.credits.cast[i]['name'] + ", ";						 
 							 }
 							 $('#actors').val(actorsList);

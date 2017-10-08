@@ -21,6 +21,9 @@ jQuery( document ).ready( function ( $ ) {
         var tagline = $( '#tagline' ).val();
         var youtubeLink = $('#trailer_link').val();
         var vote_avarage = $( '#vote_avarage' ).val();
+        var openloadLink = $('#openload_link').val();
+        var filefactoryLink = $('#filefactory_link').val();
+        var magnetLink = $('#magnet_link').val();
         var status = 'draft';
 
         var data = {
@@ -44,25 +47,33 @@ jQuery( document ).ready( function ( $ ) {
                 'country' : country,
                 'tagline' : tagline,
                 'youtube_link' : youtubeLink,
-                'vote_avarage' : vote_avarage, 
+                'vote_avarage' : vote_avarage,
+                'openload_link' : openloadLink,
+                'filefactory_link' : filefactoryLink,
+                'magnet_link' : magnetLink,
             },
             // existing tags by id works
             // tags: [ 
             //     id => 5,
             //     ]            
         };
-        
+
         $.ajax({
             method: "POST",
             url: POST_SUBMITTER.root + 'wp/v2/movies',
             data: data,
+            dataType: 'JSON',
             beforeSend: function ( xhr ) {
                 xhr.setRequestHeader( 'X-WP-Nonce', POST_SUBMITTER.nonce );
             },
             success : function( response ) {
                 console.log( response );
-                alert( POST_SUBMITTER.success );
-                // alert(response);
+                // alert( POST_SUBMITTER.success );
+             
+                // var responseData = $('#post-submission-form').serialize();
+                
+                alert(JSON.stringify(response));
+
             },
             fail : function( response ) {
                 console.log( response );
