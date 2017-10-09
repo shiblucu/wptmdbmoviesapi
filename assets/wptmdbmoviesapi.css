@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+/*
+* Movies Archive Page
+*/
+
+#movies-archive-wrapper h2 {
+    font-family: 'Merriweather', serif;
+    font-size: 14px;
+    line-height: 1.25;
+    padding: 5px;
+}
+#movies-archive-wrapper a{
+    color: #333;
+}
+#movies-archive-wrapper .card-img.img-responsive{
+    max-height: 210px;
+}
+.card-title{
+    background-color: rgba(108, 111, 96, .5);
+}
+
+#movies-archive-wrapper .card-img-overlay{
+    padding: 0;
+}
+#movies-archive-wrapper .card-img-overlay a{
+    color: #f1f1f1;
+}

@@ -245,21 +245,21 @@ add_filter( 'the_content', function( $content ) {
 							 console.log(data);
 		
 							 $('#title').val(data.title);
-							 // $('#type').val(data.Type);
+							 $('#type').val(data.Type);
 							 $('#year').val(data.release_date.substr(0, 4));
 							 $('#imdb').val(data.imdb_id);
 							 $('#lang').val(data.original_language);
-							 $('#backdrop_path').val('https://image.tmdb.org/t/p/w1000/' + data.backdrop_path);
+							 $('#backdrop_path').val(data.backdrop_path);
 							 $('#tmdb').val(data.id);
 							 $('#original_title').val(data.original_title);
 							 $('#overview').val(data.overview);
-							 $('#poster').val('https://image.tmdb.org/t/p/w300/' + data.poster_path);
+							 $('#poster').val(data.poster_path);
 							 $('#release_date').val(data.release_date);
 							 $('#runtime').val(data.runtime);
 							 $('#country').val(data.production_countries[0].name);
 							 $('#status').val(data.status);
 							 $('#tagline').val(data.tagline);
-							 $('#trailer_link').val('https://www.youtube.com/watch?v=' + data.videos.results[0]['key']);
+							 $('#trailer_link').val(data.videos.results[0]['key']);
 							 $('#vote_avarage').val(data.vote_average);
 							 
 							var genresList = "";

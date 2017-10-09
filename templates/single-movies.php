@@ -25,14 +25,14 @@ get_header();
                         
                     </header><!-- .entry-header -->
 
-                    <?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
+                    <?php // echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 
                     <div class="entry-content">
                         
                         <?php if ( 'movies' == get_post_type() ) : ?>
                             <div class="entry-meta row">
                                 <div class="col-3">
-                                    <img src="<?php echo $post->poster_url; ?>" alt="">
+                                    <img src="<?php echo POSTER.$post->poster_url; ?>" alt="">
                                 </div>
                                 <div class="col-9">
                                     <h1 class="entry-title">
@@ -42,7 +42,7 @@ get_header();
                                     </h1>
                                     <hr>
                                     <div>
-                                        <a href="<?php echo $post->youtube_link; ?>" target="_blank" class="btn btn-info">Trailer</a>
+                                        <a href="<?php echo YT_TRAILER.$post->youtube_link; ?>" target="_blank" class="btn btn-info">Trailer</a>
                                         <a href="<?php echo $post->filefactory_link; ?>" target="_blank" class="btn btn-info">Download (Filefactory)</a>
                                         <a href="<?php echo $post->magnet_link; ?>" target="_blank" class="btn btn-info">Download (Torrent)</a>
                                     </div>

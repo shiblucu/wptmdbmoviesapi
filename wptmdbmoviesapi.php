@@ -11,6 +11,12 @@ Author URI: http://tawfiq.me
 
 include_once('template.php');
 
+// constants
+define("POSTER_SM", "https://image.tmdb.org/t/p/w150/");
+define("POSTER", "https://image.tmdb.org/t/p/w300/");
+define("BACKDROP_PATH", "https://image.tmdb.org/t/p/w1000/");
+define("YT_TRAILER", "https://www.youtube.com/embed/");
+
 // Register Custom Post Type
 function trwtma_movies_post_type() {
 
@@ -68,17 +74,30 @@ function trwtma_movies_post_type() {
 
 }
 add_action( 'init', 'trwtma_movies_post_type', 0 );
+
 // Register single template for custom post type
+add_filter('single_template','movies_single_template');
+add_filter('archive_template','movies_archive_template');
 
-function get_movies_custom_post_type_template($single_template) {
-     global $post;
-
-     if ($post->post_type == 'movies') {
-          $single_template = dirname( __FILE__ ) . '/single-movies.php';
-     }
-     return $single_template;
+//Movies single- template
+function movies_single_template($single_template){
+//   global $post;
+  $found = locate_template('single-movies.php');
+    $single_template = plugin_dir_path(__FILE__) . '/templates/single-movies.php';
+    return $single_template;
 }
-add_filter( 'single_template', 'get_movies_custom_post_type_template' );
+
+//Movies archive- template
+function movies_archive_template($template){
+  if(is_post_type_archive('movies')){
+    $theme_files = array('archive-movies.php');
+    $exists_in_theme = locate_template($theme_files, false);
+    if($exists_in_theme == ''){
+      return plugin_dir_path(__FILE__) . '/templates/archive-movies.php';
+    }
+  }
+  return $template;
+}
 
 // Register Custom Taxonomy
 function actors_texonomy() {
@@ -324,14 +343,17 @@ $args_vote_avarage = array(
     'show_in_rest' => true,
 );
 register_meta( $object_type, 'vote_avarage', $args_vote_avarage );
+
 /**
  * Setup JavaScript
  */
 add_action( 'wp_enqueue_scripts', function() {
 
 	//load script
-	wp_enqueue_script( 'post-submitter', plugin_dir_url( __FILE__ ) . 'post-submitter.js', array( 'jquery' ) );
-
+	wp_enqueue_script( 'post-submitter', plugin_dir_url( __FILE__ ) . 'assets/post-submitter.js', array( 'jquery' ) );
+	//load stylesheet
+	wp_enqueue_style( 'wptmdbmoviesapistyle', plugin_dir_url(__FILE__).'assets/wptmdbmoviesapi.css', false, '');
+	
 	//localize data for script
 	wp_localize_script( 'post-submitter', 'POST_SUBMITTER', array(
 			'root' => esc_url_raw( rest_url() ),
@@ -341,6 +363,8 @@ add_action( 'wp_enqueue_scripts', function() {
 			'current_user_id' => get_current_user_id()
 		)
 	);
-	
-
 });
+
+
+
+
